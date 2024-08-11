@@ -1,4 +1,4 @@
-namespace EStore.Web.Models;
+namespace EStore.Domain.ViewModels;
 
 public class ErrorViewModel
 {

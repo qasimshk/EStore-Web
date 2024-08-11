@@ -1,6 +1,6 @@
-namespace EStore.Web.Controllers;
+namespace EStore.Web.Areas.Staff.Controllers;
+
 using System.Diagnostics;
-using EStore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 public class HomeController : Controller
