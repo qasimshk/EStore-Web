@@ -1,4 +1,4 @@
-﻿namespace EStore.Infrastructure;
+namespace EStore.Infrastructure;
 
 public class Class1
 {

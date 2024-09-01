@@ -19,6 +19,6 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Staff}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Identity}/{controller=Account}/{action=Index}/{id?}");
 
 app.Run();
