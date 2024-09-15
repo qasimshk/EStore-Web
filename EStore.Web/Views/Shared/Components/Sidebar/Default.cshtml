@@ -1,0 +1,47 @@
+@using EStore.Domain.Responses
+
+@model List<CategoryResponse>
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <!--User Login Details -->
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="nav-profile-image">
+                    <img src="~/images/faces/face1.jpg" asp-append-version="true" alt="profile" />
+                    <span class="login-status online"></span>
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                    <span class="font-weight-bold mb-2">David Grey. H</span>
+                    <span class="text-secondary text-small">Project Manager</span>
+                </div>
+                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+            </a>
+        </li>
+
+        <!--Menu -->
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Staff" asp-controller="Product" asp-action="Category" asp-route-name="All">
+                <span class="menu-title">All</span>
+                <i class="mdi mdi-home menu-icon"></i>
+            </a>
+        </li>
+
+        @foreach(var category in Model)
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Staff" asp-controller="Product" asp-action="Category" asp-route-name="@category.Url">
+                    <span class="menu-title">@category.CategoryName</span>
+                    <i class="@category.Css"></i>
+                </a>
+            </li>
+        }
+
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Staff" asp-controller="Product" asp-action="Settings">
+                <span class="menu-title">Settings</span>
+                <i class="mdi mdi-cog-outline menu-icon"></i>
+            </a>
+        </li>
+    </ul>
+</nav>

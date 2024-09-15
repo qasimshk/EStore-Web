@@ -1,0 +1,64 @@
+@using EStore.Domain.Common.Pagination
+@using EStore.Domain.Responses
+
+@model ProductViewModel
+
+<div class="container">
+    <div class="row">
+
+        @if (Model != null)
+        {
+            @foreach (var product in Model.Products)
+            {
+                string imagePath = $"~/products/{product.ProductName}.jpg";
+
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img src="@imagePath" asp-append-version="true" class="img-fluid img-thumbnail" />
+                        <div class="card-body">
+                            <p class="card-text">@product.ProductName</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" asp-route-name="@product.ProductId" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <button type="button" asp-route-name="@product.ProductId" class="btn btn-sm btn-outline-secondary">Basket</button>
+                                </div>
+                                <small class="text-muted">£@product.UnitPrice GBP</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Pagination controls -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @if (Model.Pagination.HasPrevious)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Category", new { pageNumber = Model.Pagination.CurrentPage - 1 })" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (var i = 1; i <= Model.Pagination.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.Pagination.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Category", new { pageNumber = i })">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.Pagination.HasNext)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Category", new { pageNumber = Model.Pagination.CurrentPage + 1 })" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
+    </div>
+</div>

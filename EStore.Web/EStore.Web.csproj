@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Areas\Identity\Views\Account\l4zklqlk.cck~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EStore.Domain\EStore.Domain.csproj" />
     <ProjectReference Include="..\EStore.Infrastructure\EStore.Infrastructure.csproj" />
   </ItemGroup>

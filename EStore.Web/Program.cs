@@ -1,24 +1,44 @@
+using System.Net.Http.Headers;
+using EStore.Infrastructure.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+builder.Services.AddMemoryCache();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+builder.Services.AddHttpClient<IEStoreService, EStoreService>((serviceProvider, client) =>
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    var serviceUrl = builder.Configuration.GetSection("ServiceEndpoint").Value!;
+
+    client.DefaultRequestHeaders.Accept.Clear();
+
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+    client.BaseAddress = new Uri(serviceUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+{
+    PooledConnectionLifetime = TimeSpan.FromMinutes(15)
+})
+.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+{
+    app.UseExceptionHandler("/Home/Error"); // ToDo: set error page
     app.UseHsts();
+    app.UseHttpsRedirection();
+
+    app.UseStaticFiles();
+    app.UseRouting();
+    app.UseAuthorization();
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{area=Identity}/{controller=Account}/{action=Index}/{name?}");
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{area=Identity}/{controller=Account}/{action=Index}/{id?}");
-
-app.Run();
